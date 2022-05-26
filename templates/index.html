@@ -1,101 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
   <title></title>
+
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <style type="text/css">
- body {
-  background-image: url("https://www.tekcrispy.com/wp-content/uploads/2018/06/tareas-pendientes.jpg");
-  background-repeat: no-repeat;
-  background-position: right top;
-  margin-right: 200px;
-  margin-top: 900px;
-}
+      body {
+        background-image: url("https://www.tekcrispy.com/wp-content/uploads/2018/06/tareas-pendientes.jpg");
+        background-repeat: no-repeat;
+        background-position: right top;
+        margin-right: 200px;
+        margin-top: 900px;
+      }
     </style>
-</head>
+  </head>
+
 <body class="m-0 vh-100 row justify-content-center align-items-center">
+
+  <!--creando variable messages-->
+  {%with messages = get_flashed_messages()%}
+  {%if messages%}
+  {% for messages in messages %}
+  <p>{{ messages }}</p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  <br><br>
+  <br>
   <div class="position-static">
-    <div  class="text-center">
+    <div class="text-center">
       <h1>TO DO</h1>
     </div>
     <br>
-    <br>
-    <br>
+    <form action="{{url_for('enviar')}}" method="POST">
+      <div class="m-0 vh-80 row justify-content-center align-items-center">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="exampleTarea">Tarea</label>
+            <input type="text" class="form-control" name="tarea" aria-describedby="emailHelp"
+              placeholder="Enter homwork" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" name="correo_electronico" aria-describedby="emailHelp"
+              placeholder="Enter email" required>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputState">Prioridad</label>
+            <select name="prioridad" class="form-control" required>
+              <option selected>Select</option>
+              <option>Alta</option>
+              <option>Media</option>
+              <option>Baja</option>
+            </select>
+          </div>
+          <br>
+          <div class="center-block">
+            <button type="submit" class="btn btn-outline-dark" name="agregar tarea">Agregar tarea</button>
+          </div>
+        </div>
+      </div>
+  </div>
+  </form>
+  <br>
+  <br>
+  <br>
   <div class="row">
     <div class="col-sm-9">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Dirección eléctronico</th>
-            <th scope="col">Prioridad</th>
+            <th>Tarea</th>
+            <th>Dirección eléctronico</th>
+            <th>Prioridad</th>
+            <th>Operación</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">1</th>
-            <td>comprar leche</td>
-            <td>jjrenteria@espe.edu.ec</td>
-            <td>media</td>
+            {% for homwork in to_do %}
+            <td>{{ homwork.tarea}}</td>
+            <td>{{ homwork.correo_electronico}}</td>
+            <td>{{ homwork.prioridad}}</td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>hacer ejercicio</td>
-            <td>jjrenteria@espe.edu.ec</td>
-            <td>media</td>
-          </tr>
-       
+          {% endfor %}
+
         </tbody>
       </table>
       <br>
       <br>
-      <br>
-      <br>
-  </div>
-  <br ><br >
-  <div class="position-static">
-    <div  class="text-center">
-      <h1>Agregar Tarea</h1>
+
     </div>
-    <br>
-        <br>
-        <br>
-        <br>
-        <form {{ url_for('/enviar') }} action="POST">
-        <div class="m-0 vh-80 row justify-content-center align-items-center" >
-          <div class="col-sm-4">
-              <div class="form-group" >
-                  <label for="exampleInputEmail1">Description</label>
-                  <input type="text" class="form-control" name="tarea" aria-describedby="emailHelp" placeholder="Enter description" required>
-                </div>
-              <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" class="form-control" name="correo_electronico" aria-describedby="emailHelp" placeholder="Enter email" required>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="inputState">Priority</label>
-                  <select name="prioridad" class="form-control" required>
-                    <option selected>Select</option>
-                    <option>Alta</option>
-                    <option>Media</option>
-                    <option>Baja</option>
-                  </select>
-                </div>
-              <br>
-                <div class="center-block">
-                  <button type="button" class="btn btn-outline-dark" id="agregar tarea">Agregar tarea</button>
-                </div>
-          </div>
-        </div>
-      </div>
-  </form>
-</div>
+  </div>
+
 </body>
+
 </html>

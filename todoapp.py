@@ -1,5 +1,6 @@
 #Se importa la librería Flask
-from flask import Flask, redirect, render_template, request, flash, url_for
+from flask import Flask, redirect, render_template, request, url_for
+from tkinter import messagebox
 
 #variable de instancia app
 app=Flask(__name__, template_folder='templates')
@@ -8,27 +9,32 @@ app=Flask(__name__, template_folder='templates')
 #configuración
 app.secret_key = 'mysecretkey'
 #agregamos una variable tipo array
-tareas = []
+to_do = []
 
 #decorador ruta raíz
 @app.route('/')
 #función que retorna la página principal 
-def principal():
-    return render_template('index.html', tareas=tareas)
+def principal(): 
+    return render_template('index.html', to_do=to_do)
+
 
 
 #Ruta página de envio, permite el envio de datos
 @app.route('/enviar', methods=['POST'])
 def enviar():
     if request.method == 'POST':
-        descripcion = request.form['descripcion']
+        tarea = request.form['tarea']
         correo_electronico = request.form['correo_electronico']
         prioridad = request.form['prioridad']
-        if descripcion == '' or correo_electronico =='' or prioridad=='seleccionar':
-            flash('Ingresar todos los campos')
-            return redirect(href={ url_for('principal') })
-        else: 
-            flash('Se agrego correctamente!')
+       # if tarea == '' or correo_electronico =='' or prioridad=='Select':
+        #    messagebox.showerror("Llenar todos los campos")
+        return redirect(url_for('principal'))
+        #else: 
+         #   messagebox.showinfo("Se enviaron Correctamente!")
+          #  return render_template('index.html', to_do=to_do)
+         
+            
+
         
 #main del programa
 if __name__ == '__main__':
