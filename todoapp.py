@@ -1,6 +1,5 @@
 #Se importa la librería Flask
 from flask import Flask, redirect, render_template, request, url_for
-from tkinter import messagebox
 
 #variable de instancia app
 app=Flask(__name__, template_folder='templates')
@@ -26,13 +25,16 @@ def enviar():
         tarea = request.form['tarea']
         correo_electronico = request.form['correo_electronico']
         prioridad = request.form['prioridad']
-       # if tarea == '' or correo_electronico =='' or prioridad=='Select':
-        #    messagebox.showerror("Llenar todos los campos")
-        return redirect(url_for('principal'))
-        #else: 
-         #   messagebox.showinfo("Se enviaron Correctamente!")
-          #  return render_template('index.html', to_do=to_do)
-         
+        
+        
+        if tarea == '' or correo_electronico =='' or prioridad=='Select':
+            return redirect(url_for('principal'))
+        else: 
+           return redirect(url_for('principal'))
+ 
+    to_do.append({'tarea' : tarea,'correo':correo_electronico,'prioridad':prioridad})
+    return redirect(url_for('principal'))
+
             
 
         
