@@ -26,14 +26,11 @@ def enviar():
         correo_electronico = request.form['correo_electronico']
         prioridad = request.form['prioridad']
         
-        
         if tarea == '' or correo_electronico =='' or prioridad=='Select':
             return redirect(url_for('principal'))
         else: 
-           return redirect(url_for('principal'))
- 
-    to_do.append({'tarea' : tarea,'correo':correo_electronico,'prioridad':prioridad})
-    return redirect(url_for('principal'))
+            to_do.append({'tarea' : tarea,'correo':correo_electronico,'prioridad':prioridad})
+            return redirect(url_for('principal'))
 
             
 
